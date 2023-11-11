@@ -17,7 +17,7 @@ export default function Header({loggedIn}:HeaderProps){
     return(
         <header className={headerStyles.headerStyle}>
             <div className={headerStyles.containerStyle}>
-                <p className={headerStyles.logoStyle}>Web Portfolio</p>
+                <Link href={"/"} className={headerStyles.logoStyle}>Web Portfolio</Link>
                 <nav className={headerStyles.navStyle}>
                     <Link href={""} className={headerStyles.linkStyle}>Explorar</Link>
                     {
@@ -27,7 +27,7 @@ export default function Header({loggedIn}:HeaderProps){
                         <Link href={""} className={headerStyles.linkStyle}>Meu Perfil</Link>
                         </> :
                         <>
-                        <Link href={""} className="px-5 py-4 hover:bg-gray-200 hover:font-semibold transition-all duration-200">Entrar</Link>
+                        <Link href={"/login"} className={headerStyles.linkStyle}>Entrar</Link>
                         <Link href={""} className={headerStyles.linkStyle}>Criar Conta</Link>
                         </>
                     }
