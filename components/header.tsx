@@ -1,38 +1,38 @@
 import Link from "next/link"
 
 const headerStyles = {
-    linkStyle: "px-5 py-4 hover:bg-gray-200 hover:font-semibold transition-all duration-200",
-    navStyle: "flex justify-around text-lg",
-    logoStyle: "mx-4 text-xl font-semibold",
-    containerStyle: "flex justify-between items-center",
-    headerStyle: "bg-gray-100"
+    headerStyle: "bg-gray-100 dark:bg-gray-800 min-h-[10vh] flex justify-between items-center h-fit",
+    linkStyle: "hover:font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200 px-5 min-h-[10vh] flex items-center",
+    navStyle: "flex justify-around items-center text-lg",
+    logoStyle: "mx-4 text-xl font-semibold"
 }
 
 
-interface HeaderProps{
-    loggedIn:boolean
+interface HeaderProps {
+    loggedIn:boolean,
+    headerClassName?:string,
 }
 
-export default function Header({loggedIn}:HeaderProps){
+export default function Header({loggedIn, headerClassName}:HeaderProps){
     return(
-        <header className={headerStyles.headerStyle}>
-            <div className={headerStyles.containerStyle}>
+        <header className={headerClassName != null? headerClassName : headerStyles.headerStyle}>
                 <Link href={"/"} className={headerStyles.logoStyle}>Web Portfolio</Link>
                 <nav className={headerStyles.navStyle}>
-                    <Link href={""} className={headerStyles.linkStyle}>Explorar</Link>
-                    {
-                    loggedIn ?
-                        <>
+
+                    {/* <div> */}
+                        <Link href={""} className={headerStyles.linkStyle}>Explorar</Link>
+                    {/* </div> */}
+                
+                    {loggedIn ?
                         <Link href={""} className={headerStyles.linkStyle}>Meu Portfolio</Link>
+                        :
+                        <Link href={"/login"} className={headerStyles.linkStyle}>Entrar</Link>}
+                
+                    {loggedIn ?
                         <Link href={""} className={headerStyles.linkStyle}>Meu Perfil</Link>
-                        </> :
-                        <>
-                        <Link href={"/login"} className={headerStyles.linkStyle}>Entrar</Link>
-                        <Link href={""} className={headerStyles.linkStyle}>Criar Conta</Link>
-                        </>
-                    }
+                        :
+                        <Link href={"/signup"} className={headerStyles.linkStyle}>Criar Conta</Link>}
                 </nav>
-            </div>
         </header>
     )
 }
