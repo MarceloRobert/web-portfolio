@@ -7,17 +7,23 @@
 
 import { authStyles } from "../authStyles";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 
 export default function LoginForm(){
     
     const { register, handleSubmit, formState } = useForm();
-
+    const router = useRouter();
+    
     async function loginSubmit(data:any) {
         // criar arquivo ".env.local" na raíz do projeto com
         // NEXT_PUBLIC_BACKEND_URL: "url"
         // não colocar ; no final da linha daquele arquivo
-        await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, data);
+
+        // let resposta = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, data);
+        // TODO: tratar resposta
+        
+        router.push("/config/profile");
     }
 
     return (
