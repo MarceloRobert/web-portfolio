@@ -1,92 +1,75 @@
 import Header from "@/components/header"
-import Image from 'next/image'
+import LandingCard from "@/components/landingCard"
+import Link from "next/link"
 
 export default function App(){
     return (
         <>
         <Header loggedIn={false}></Header>
         <main className="flex min-h-[90vh] flex-col items-center justify-between p-24">
-            <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-                <Image
-                className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-                src="/next.svg"
-                alt="Next.js Logo"
-                width={180}
-                height={37}
-                priority
+            {/* Título */}
+            <div className="relative flex flex-col place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
+                <h1 className="text-5xl font-bold pb-5">Web Portfolio</h1>
+                <h2 className="text-xl font-semibold text-center">Apresente o seu trabalho e a si mesmo no mundo online.</h2>
+            </div>
+
+            {/* Descrição */}
+            <div className="max-w-lg mt-8 text-center">
+                <p>Use o portfolio online como um website personalizado para guardar seus melhores projetos e tenha um link próprio para enviar suas candidaturas e ter maiores chances de sucesso!</p>
+            </div>
+
+            {/* Benefícios */}
+            <section className="my-24 grid text-center lg:max-w-5xl lg:w-full lg:grid-cols-3 lg:text-left">
+                <LandingCard
+                    titulo={"Elegante"}
+                    texto={"Design de website moderno para se manter atualizado entre os candidatos."}
                 />
-            </div>
 
-            <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-                <a
-                href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-                className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-                target="_blank"
-                rel="noopener noreferrer"
-                >
-                <h2 className={`mb-3 text-2xl font-semibold`}>
-                    Docs{' '}
-                    <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                    -&gt;
-                    </span>
-                </h2>
-                <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-                    Find in-depth information about Next.js features and API.
-                </p>
-                </a>
+                <LandingCard
+                    titulo={"Fácil de usar"}
+                    texto={"Com apenas alguns cliques você já poderá compartilhar seu mais novo portfolio."}
+                />
 
-                <a
-                href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-                target="_blank"
-                rel="noopener noreferrer"
-                >
-                <h2 className={`mb-3 text-2xl font-semibold`}>
-                    Learn{' '}
-                    <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                    -&gt;
-                    </span>
-                </h2>
-                <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-                    Learn about Next.js in an interactive course with&nbsp;quizzes!
-                </p>
-                </a>
+                <LandingCard
+                    titulo={"Personalizado"}
+                    texto={"Insira apenas as informações que você possui, sem se preocupar com espaços em branco."}
+                />
+            </section>
 
-                <a
-                href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-                className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-                target="_blank"
-                rel="noopener noreferrer"
-                >
-                <h2 className={`mb-3 text-2xl font-semibold`}>
-                    Templates{' '}
-                    <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                    -&gt;
-                    </span>
-                </h2>
-                <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-                    Explore the Next.js 13 playground.
-                </p>
-                </a>
+            {/* Explorar */}
+            <section className="w-1/2 max-w-md text-center flex flex-col">
+                <Link href={'/signup'} className="text-white text-xl bg-green-600 hover:bg-green-700 w-full py-2 rounded-md hover:font-semibold transition-all duration-200">
+                    Crie sua conta agora
+                </Link>
 
-                <a
-                href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-                className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-                target="_blank"
-                rel="noopener noreferrer"
-                >
-                <h2 className={`mb-3 text-2xl font-semibold`}>
-                    Deploy{' '}
-                    <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                    -&gt;
-                    </span>
-                </h2>
-                <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-                    Instantly deploy your Next.js site to a shareable URL with Vercel.
-                </p>
-                </a>
-            </div>
+                <span className="my-2">ou</span>
+
+                <Link href={'/portfolio'} className="text-white text-xl bg-green-600 hover:bg-green-700 w-full py-2 rounded-md hover:font-semibold transition-all duration-200">
+                    Explore portfolios reais
+                </Link>
+            </section>
             </main>
+
+            <footer className="flex items-center lg:flex-row flex-col justify-between mt-20 py-4 px-8 lg:space-y-0 space-y-6" 
+            style={{background: `linear-gradient(10deg,
+            rgba(150, 150, 200, 0.3) 0%,
+            rgba(0, 0, 0, 0.3) 50%,
+            rgba(150, 150, 200, 0.3) 100%
+            )`}}>
+                <div className="lg:text-end text-center">
+                    <p>Criado por Marcelo Robert Santos</p>
+                    <p>e Lucas Batista Pereira</p>
+                </div>
+
+                <p>
+                    UNIFEI - Universidade Federal de Itajubá
+                </p>
+
+                <div className="lg:text-left text-center">
+                    <p>XDES03 - Programação Web</p>
+                    <p>Docente Phyllipe</p>
+                </div>
+            </footer>
         </>
     )
 }

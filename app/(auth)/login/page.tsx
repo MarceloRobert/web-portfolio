@@ -6,6 +6,7 @@ export const metadata = {
 import Header from "@/components/header";
 import LoginForm from "./loginForm";
 import Link from "next/link";
+import { authStyles } from "../authStyles";
 
 export default function Login(){
     return (
@@ -20,9 +21,9 @@ export default function Login(){
                 {/* Form de login */}
                 <div className="max-w-md mx-auto">
                     <LoginForm/>
-                    <div className="text-gray-800 text-center mt-6">
-                        <span>Ainda não tem uma conta? </span> 
-                        <Link href="/signup" className="text-green-600 hover:text-green-800 transition duration-200 ease-in-out">Cadastre-se</Link>
+                    <div className="text-center mt-6">
+                        <span className="opacity-80">Ainda não tem uma conta? </span> 
+                        <Link href="/signup" className={authStyles.linkStyle}>Cadastre-se</Link>
                     </div>
                     {/* TODO: recuperar senha */}
                     {/* <div className="text-gray-800 text-center mt-2">

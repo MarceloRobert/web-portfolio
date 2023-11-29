@@ -20,7 +20,7 @@ export default function Config(){
                 {/* Pegar os dados originais do usuário, colocar direto em um formulário. Se ao submeter o formulário os dados continuarem iguais, não há alteração, senão, verifica o que será mudado */}
                 <main className="w-1/2 px-5 pt-5">
                     <h1 className="font-bold text-xl">Configurações de Perfil</h1>
-                    <ProfileConfigForm></ProfileConfigForm>
+                    <ProfileConfigForm/>
                 </main>
             </div>
         </>

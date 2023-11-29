@@ -21,9 +21,9 @@ export default function Signup(){
                 {/* Form de signup */}
                 <div className="max-w-md mx-auto">
                     <SignupForm/>
-                    <div className="text-gray-800 text-center mt-6">
-                        <span>Já possui uma conta? </span> 
-                        <Link href="/login" className="text-green-600 hover:text-green-800 transition duration-200 ease-in-out">Realizar login</Link>
+                    <div className="text-center mt-6">
+                        <span className="opacity-80">Já possui uma conta? </span> 
+                        <Link href="/login" className={authStyles.linkStyle}>Realizar login</Link>
                     </div>
                 </div>
 
