@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { configStyles } from "./configStyles";
+import { configStyles } from "../app/config/configStyles";
 
 export default function ConfigDrawer(){
     return(
@@ -10,10 +10,7 @@ export default function ConfigDrawer(){
                     <Link href={'/config/profile'} className={configStyles.linkStyle}>Perfil</Link>
                 </li>
                 <li>
-                    <Link href={'/config/notifications'}  className={configStyles.linkStyle}>Notificações</Link>
-                </li>
-                <li>
-                    <Link href={''} className={configStyles.linkStyle}>Conexões</Link>
+                    <Link href={'/config/portfolio'}  className={configStyles.linkStyle}>Portfolio</Link>
                 </li>
             </ul>
         </aside>
