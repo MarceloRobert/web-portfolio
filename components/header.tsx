@@ -21,12 +21,13 @@ export default function Header({loggedIn, headerClassName}:HeaderProps){
                 </Link>
                 <nav className={headerStyles.navStyle}>
 
-                    <Link href={""} className={headerStyles.linkStyle}>
+                    <Link href={"/portfolio"} className={headerStyles.linkStyle}>
                         Explorar
                     </Link>
                 
                     {loggedIn ?
-                        <Link href={"/portfolio"} className={headerStyles.linkStyle}>Meu Portfolio</Link>
+                        // TODO: pegar o id do usuário para ir para a página dele
+                        <Link href={"/portfolio/teste"} className={headerStyles.linkStyle}>Meu Portfolio</Link>
                         :
                         <Link href={"/login"} className={headerStyles.linkStyle}>Entrar</Link>}
                 

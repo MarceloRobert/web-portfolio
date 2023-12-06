@@ -31,7 +31,7 @@ export default function PortfolioConfigForm (){
 
     const [loaded, setLoaded] = useState(false);
     if(!loaded){
-        append(new Project());
+        append(new Project({}));
         setLoaded(true);
     }
 
@@ -127,7 +127,7 @@ export default function PortfolioConfigForm (){
             <button type="button" className="block text-white bg-blue-600 hover:bg-blue-700 rounded-md w-1/2 py-2 my-2"
             onClick= {() => {
                 if(fields.length < 5){
-                    append(new Project());
+                    append(new Project({}));
                 }
             }}>
                 Adicionar outro projeto
