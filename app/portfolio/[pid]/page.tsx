@@ -5,6 +5,7 @@ import Header from "@/components/header";
 import Link from "next/link";
 import { useState } from "react";
 import useSWR from "swr";
+import { getServerSideProps } from "next/dist/build/templates/pages";
 
 type Props = {
     params : {
@@ -63,23 +64,27 @@ export default function PortfolioPID({params}:Props){
     // Significa stale-while-revalidate
     // Acessa a url passada usando a função que é o segundo parâmetro
     // Essa função deve retornar os dados para cair na var data
-    // const {data, error, isLoading} = useSWR(
-    //     `https://swapi.dev/api/people/${params.pid}`,
-    //     (url:string) => axios.get(url).then((res) => res.data)
-    // );
+    const {data, error, isLoading} = useSWR(
+        `http://localhost:8080/api/test/all`,
+        (url:string) => axios.get(url).then((res) => res.data)
+    );
 
-    // if(isLoading)
-    //     return (
-    //         <p className="w-screen h-screen flex justify-center items-center">Carregando...</p>
-    //     );
-    // else if (error)
-    //     return(
-    //         <p className="w-screen h-screen flex justify-center items-center">Houve um erro</p>
-    //     );
-    // else
+    if(isLoading)
+        return (
+            <p className="w-screen h-screen flex justify-center items-center">Carregando...</p>
+        );
+    else if (error){
+        console.log(error);
+        return(
+            <>
+            <p className="w-screen h-screen flex justify-center items-center">Houve um erro</p>
+            </>
+        );}
+    else {
+    console.log(data);
     return(
         <>
-        <Header loggedIn={false}/>
+        <Header/>
         <main className="min-h-[90dvh]flex justify-center">
             {/* Informações do usuário */}
             <section className="mt-8 text-center max-w-lg mx-auto">
@@ -170,5 +175,5 @@ export default function PortfolioPID({params}:Props){
             </section>
         </main>
         </>
-    );
+    );}
 }

@@ -3,7 +3,15 @@ import UserProfile from "@/models/userProfile";
 import { configStyles } from "../configStyles";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import useSWR from "swr";
 
+// export async function getServerSideProps () {
+//     await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usuario/getUserData`, {
+//         'headers': {
+//             'Authorization': "Bearer " + sessionStorage.getItem("accessToken"),
+//             'Content-Type': 'application/json'
+//         }});
+// }
 
 export default function ProfileConfigForm(){
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -33,6 +41,29 @@ export default function ProfileConfigForm(){
         }
     }
 
+    const {data, error, isLoading} = useSWR(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/usuario/getUserData`,
+        (url:string) => axios.get(url, {
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+                // 'Content-Type': 'application/json',
+                "Acess-Control-Allow-Origin": "*"
+            },
+            withCredentials: false,
+        }).then((res) => res.data)
+    );
+
+    if(isLoading)
+        return (
+            <p className="w-screen h-screen flex justify-center items-center">Carregando...</p>
+        );
+    else if (error){
+        console.log(error);
+        return(
+            <p className="w-screen h-screen flex justify-center items-center">Houve um erro</p>
+        );}
+    else {
+        console.log(data);
     return(
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col my-2">
@@ -67,6 +98,28 @@ export default function ProfileConfigForm(){
                 {...register("email")}
                 />
             </div>
+            <div className="flex flex-col my-2">
+                <label htmlFor="password">Senha</label>
+                <input 
+                type="password"
+                id="password"
+                placeholder="Alterar senha"
+                defaultValue={userTeste.password}
+                className={configStyles.inputStyle}
+                {...register("password")}
+                />
+            </div>
+            <div className="flex flex-col my-2">
+                <label htmlFor="passwordConfirm">Confirmar senha</label>
+                <input 
+                type="password"
+                id="passwordConfirm"
+                placeholder="Confirmar senha"
+                className={configStyles.inputStyle}
+                {...register("passwordConfirm")}
+                />
+            </div>
+            <hr className="my-8" />
             <div className="flex flex-col my-2">
                 <label htmlFor="photoUrl">URL da foto de perfil</label>
                 <input 
@@ -136,5 +189,5 @@ export default function ProfileConfigForm(){
             </div>
             <button type="submit" className="text-white bg-green-600 hover:bg-green-700 rounded-md w-1/2 py-2 my-2">Salvar</button>
         </form>
-    );
+    );}
 }

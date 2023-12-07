@@ -11,7 +11,7 @@ export const metadata = {
 export default function Config(){
     return(
         <>
-            <Header loggedIn={true}/>
+            <Header/>
             <div className="min-h-[90vh] flex flex-row">
                 {/* Menu ao lado */}
                 <ConfigDrawer/>

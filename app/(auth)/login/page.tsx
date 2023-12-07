@@ -11,7 +11,7 @@ import { authStyles } from "../authStyles";
 export default function Login(){
     return (
         <>
-        <Header loggedIn={false}/>
+        <Header/>
         <main className="grow min-h-[90vh]">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-32 pb-12 md:pt-40 md:pb-20">
 

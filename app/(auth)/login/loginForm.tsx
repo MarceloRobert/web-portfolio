@@ -16,27 +16,26 @@ export default function LoginForm(){
     const router = useRouter();
     
     async function loginSubmit(data:any) {
-        // criar arquivo ".env.local" na raíz do projeto com
-        // NEXT_PUBLIC_BACKEND_URL: "url"
-        // não colocar ; no final da linha daquele arquivo
+        let resposta = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/signin`, data);
 
-        // let resposta = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/login`, data);
-        // TODO: tratar resposta
-        
-        router.push("/config/profile");
+        if(resposta.status === 200) {
+            sessionStorage.setItem("accessToken", resposta.data.accessToken);
+            sessionStorage.setItem("uid", resposta.data.id);
+            router.push("/config/profile");
+        }
     }
 
     return (
         <form onSubmit={handleSubmit(loginSubmit)}>
             <div className="flex flex-wrap mb-4">
-                <label className={authStyles.labelStyle} htmlFor="email">Email</label>
+                <label className={authStyles.labelStyle} htmlFor="username">Nome de usuário</label>
                 <input 
-                    id="email"
-                    type="email"
+                    id="username"
+                    type="text"
                     className={authStyles.inputStyle}
-                    placeholder="Seu email" 
+                    placeholder="Seu nome" 
                     required 
-                    {...register("email")}/>
+                    {...register("username")}/>
             </div>
             <div className="flex flex-wrap mb-4">
                 <label 

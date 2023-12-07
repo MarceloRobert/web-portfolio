@@ -1,4 +1,6 @@
+"use client"
 import Link from "next/link"
+import { useState } from "react";
 
 const headerStyles = {
     headerStyle: "bg-gray-200 dark:bg-gray-800 min-h-[10vh] flex justify-between items-center h-fit",
@@ -7,15 +9,22 @@ const headerStyles = {
     logoStyle: "mx-4 text-xl font-semibold"
 }
 
+export default function Header(){
+    const [loggedIn, setLoggedin] = useState(false);
+    const [loaded, setLoaded] = useState(false);
 
-interface HeaderProps {
-    loggedIn:boolean,
-    headerClassName?:string,
-}
+    if(!loaded){
+        // if(window !== undefined){
+        //     if(sessionStorage.getItem("accessToken") != null){
+        //         setLoggedin(true);
+        //     }
+        // }
+        setLoggedin(true);
+        setLoaded(true);
+    }
 
-export default function Header({loggedIn, headerClassName}:HeaderProps){
     return(
-        <header className={headerClassName != null? headerClassName : headerStyles.headerStyle}>
+        <header className={headerStyles.headerStyle}>
                 <Link href={"/"} className={headerStyles.logoStyle}>
                     Web Portfolio
                 </Link>
@@ -26,7 +35,6 @@ export default function Header({loggedIn, headerClassName}:HeaderProps){
                     </Link>
                 
                     {loggedIn ?
-                        // TODO: pegar o id do usuário para ir para a página dele
                         <Link href={"/portfolio/teste"} className={headerStyles.linkStyle}>Meu Portfolio</Link>
                         :
                         <Link href={"/login"} className={headerStyles.linkStyle}>Entrar</Link>}

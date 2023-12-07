@@ -9,11 +9,16 @@ export default function SignupForm(){
     const { register, handleSubmit, formState } = useForm();
 
     async function signupSubmit(data:any) {
-        await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/signup`, data);
+        console.log(data);
+        let resposta = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/signup`, data, {
+            headers: {
+                "Access-Control-Allow-Origin": "*"
+            }
+        });
     }
 
     return (
-        <form>
+        <form onSubmit={handleSubmit(signupSubmit)}>
             <div className="flex flex-wrap mb-4">
                 <label 
                     className={authStyles.labelStyle} 
@@ -25,7 +30,8 @@ export default function SignupForm(){
                     type="text" 
                     className={authStyles.inputStyle}
                     placeholder="Seu nome" 
-                    required/>
+                    required
+                    {...register("username")}/>
             </div>
             <div className="flex flex-wrap mb-4">
                 <label 
@@ -38,7 +44,8 @@ export default function SignupForm(){
                     type="email" 
                     className={authStyles.inputStyle}
                     placeholder="Seu email" 
-                    required/>
+                    required
+                    {...register("email")}/>
             </div>
             <div className="flex flex-wrap mb-4">
                 <label 
@@ -51,9 +58,10 @@ export default function SignupForm(){
                     type="password" 
                     className={authStyles.inputStyle}
                     placeholder="Sua senha" 
-                    required/>
+                    required
+                    {...register("password")}/>
             </div>
-            <div className="flex flex-wrap mb-4">
+            {/* <div className="flex flex-wrap mb-4">
                 <label 
                     className={authStyles.labelStyle} 
                     htmlFor="passwordConfirm">
@@ -64,8 +72,9 @@ export default function SignupForm(){
                     type="password" 
                     className={authStyles.inputStyle}
                     placeholder="Confirme sua senha" 
-                    required/>
-            </div>
+                    required
+                    {...register("password-confirm")}/>
+            </div> */}
             <div className="flex flex-wrap mt-6">
                 <div className="w-full">
                 <button className={authStyles.buttonStyle}>Cadastrar</button>
