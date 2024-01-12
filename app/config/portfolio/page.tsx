@@ -1,14 +1,33 @@
+"use client"
+
 import Header from "@/components/header";
 import ConfigDrawer from "../../../components/configDrawer";
 import PortfolioConfigForm from "./portfolioConfigForm";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
-export const metadata = {
-    title: 'Portfolio - Configurações',
-    description: 'Alterações no seu portfolio web',
-}
+// export const metadata = {
+//     title: 'Portfolio - Configurações',
+//     description: 'Alterações no seu portfolio web',
+// }
 
 export default function Config(){
+    const [loaded, setLoaded] = useState(false);
+    const router = useRouter();
+
+    if(!loaded){
+        const token = sessionStorage.getItem("accessToken");
+        if(token == null){
+            console.log("Não autorizado");
+            setLoaded(true);
+            router.replace("/");
+        }
+        setLoaded(true);
+    }
+
+
     return(
+        loaded &&
         <>
             <Header/>
             <div className="min-h-[90vh] flex flex-row">

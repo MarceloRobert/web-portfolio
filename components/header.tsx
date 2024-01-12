@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const headerStyles = {
     headerStyle: "bg-gray-200 dark:bg-gray-800 min-h-[10vh] flex justify-between items-center h-fit",
@@ -13,15 +13,16 @@ export default function Header(){
     const [loggedIn, setLoggedin] = useState(false);
     const [loaded, setLoaded] = useState(false);
 
-    if(!loaded){
-        // if(window !== undefined){
-        //     if(sessionStorage.getItem("accessToken") != null){
-        //         setLoggedin(true);
-        //     }
-        // }
-        setLoggedin(true);
-        setLoaded(true);
-    }
+    useEffect(() => {
+        if(!loaded){
+            if(window !== undefined){
+                if(sessionStorage.getItem("accessToken") != null){
+                    setLoggedin(true);
+                }
+            }
+            setLoaded(true);
+        }
+    });
 
     return(
         <header className={headerStyles.headerStyle}>
@@ -43,6 +44,16 @@ export default function Header(){
                         <Link href={"/config/profile"} className={headerStyles.linkStyle}>Meu Perfil</Link>
                         :
                         <Link href={"/signup"} className={headerStyles.linkStyle}>Criar Conta</Link>}
+                    
+                    {loggedIn ?
+                        <button className={headerStyles.linkStyle}
+                        onClick={() => {
+                            sessionStorage.removeItem("accessToken");
+                            sessionStorage.removeItem("uid");
+                        }}>
+                            Logout
+                        </button>
+                    : <></>}
                 </nav>
         </header>
     )

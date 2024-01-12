@@ -6,6 +6,6 @@ export default function Portfolio(){
     // ou deve ser redirecionada para um portfolio aleatório que o banco permitir
 
     const router = useRouter();
-    router.replace('/portfolio/Marcelo Robert Santos');
+    router.replace('/portfolio/Terceiro');
     return(<></>);
 }

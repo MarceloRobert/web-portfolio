@@ -2,45 +2,163 @@
 import Project from "@/models/project";
 import { useForm, useFieldArray, Control } from "react-hook-form";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { configStyles } from "../configStyles";
+import axios from "axios";
+import useSWR from "swr";
 
 type formValues = {
     projetosFA: Project[]
 }
 
 export default function PortfolioConfigForm (){
-    const { control, register, handleSubmit, formState: { errors } } =
-        useForm<formValues>({
-            defaultValues: {
-                "projetosFA": []
-            }
-        });
+    const router = useRouter();
     
-    // os métodos importados são os disponíveis, é possível inserir outras funcionalidades futuramente como o ```move``` por exemplo
-    const { fields, append, replace, remove } = useFieldArray({
+    const { control, register, handleSubmit, formState: { errors } } =
+    useForm<formValues>({
+        defaultValues: {
+            "projetosFA": []
+        }
+    });
+    
+    // Os métodos importados são os disponíveis, é possível inserir outras funcionalidades futuramente como o ```move``` por exemplo
+    const { fields, append, remove } = useFieldArray({
         name: "projetosFA", // projetosFieldArray
         control,
     });
 
+    const [mensagem, setMensagem] = useState<string>();
+    async function onSubmit(data: any) {
+        console.log("Projetos do formulário:");
+        console.log(data["projetosFA"]);
+
+        for(const indice in data["projetosFA"]){
+            const projeto = data["projetosFA"][indice];
+            // Se não possui id então é um projeto novo, adiciona no banco
+            if(projeto.id == null){
+                console.log(`Salvar ${projeto["titulo"]}`);
+                console.log(projeto.toJson());
+                let resposta = await axios.post(
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/projetos/addProject`,
+                    projeto.toJson(),
+                    {
+                        headers: {
+                            Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+                            'Content-Type': 'application/json',
+                        },
+                    }
+                );
+                setMensagem(resposta.data.toString());
+            } else
+            // Se possuir id então verifica se houve alteração
+            // quanto ao original para update e delete
+            if (original != null) {
+
+                // Realiza as updates se algo mudou
+                let resposta;
+                if (original[indice]["titulo"] != projeto["titulo"] ||
+                    original[indice]["descricao"] != projeto["descricao"] ||
+                    original[indice]["fotoUrl"] != projeto["fotoUrl"] ||
+                    original[indice]["github"] != projeto["github"] ||
+                    original[indice]["linkedin"] != projeto["linkedin"] ||
+                    original[indice]["instagram"] != projeto["instagram"] ||
+                    original[indice]["facebook"] != projeto["facebook"]
+                ){
+                    console.log(`Editar ${projeto["titulo"]}`);
+                    console.log(projeto.toJsonWithID());
+                    resposta = await axios.post(
+                        `${process.env.NEXT_PUBLIC_BACKEND_URL}/projetos/updateProject`,
+                        projeto.toJsonWithID(),
+                        {
+                            headers: {
+                                Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+                                'Content-Type': 'application/json',
+                            },
+                        }
+                    );
+                }
+                setMensagem(resposta?.data.toString());
+            }
+        }
+
+        // Realiza os deletes se algum id sumiu
+        if(original != null){
+            for(const indice in (original as Object)){
+                const projOriginal = original[indice];
+                let apagarIndiceAtual = true;
+                for(const indice2 in data["projetosFA"]){
+                    const projForm = data["projetosFA"][indice2];
+                    if(projForm["id"] == projOriginal["id"]){
+                        apagarIndiceAtual = false;
+                        break;
+                    }
+                }
+                if(apagarIndiceAtual){
+                    console.log(`Apagar ${projOriginal["titulo"]} de indice ${projOriginal["id"]}`);
+                    let resposta = await axios.delete(
+                    `${process.env.NEXT_PUBLIC_BACKEND_URL}/projetos/deleteProject`,
+                        {
+                            data: {
+                                "projectId": projOriginal["id"],
+                            },
+                            headers: {
+                                Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+                                'Content-Type': 'application/json',
+                            },
+                        }
+                    );
+                    setMensagem(resposta?.data.toString());
+                }
+            }
+        }
+        // recarrega a página para atualizar os ids
+        // router.replace("/config/portfolio");
+    }
+
     // Ao criar o usuário, um projeto será vinculado à ele
     // e deverá ser pego no banco
-    // TODO: pegar os projetos com o banco ao entrar nessa página
-    // em seguida usar replace(projetos) para inicializar os campos do forms
-    // caso a lista de projetos estiver vazia, um elemento em branco deve ser colocado
-    // let projetos : Project[] = [];
+    const [original, setOriginal] = useState();
+    const {data, error, isLoading} = useSWR(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/projetos/getProjects`,
+        (url:string) => axios.get(url, {
+            headers: {
+                Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+                'Content-Type': 'application/json',
+            },
+        }).then((res) => {
+            setOriginal(res.data);
+            for(const index in res.data){
+                const projeto = res.data[index];
+                append(new Project(projeto));
+            }
+            if(res.data.length == 0){
+                append(new Project({}));
+            }
+            return (res.data);
+        }),
+        // Opções para não revalidar automaticamente
+        // (Não ficar refazendo os gets)
+        {
+            revalidateIfStale: false,
+            revalidateOnFocus: false,
+            revalidateOnReconnect: false
+        }
+    );
 
-    const [loaded, setLoaded] = useState(false);
-    if(!loaded){
-        append(new Project({}));
-        setLoaded(true);
-    }
 
-    function onSubmit(data: any) {
-        console.log(data["projetosFA"]);
-        // TODO: passar para JSON e enviar para o banco
-    }
 
+    if(isLoading)
+        return (
+            <p className="w-screen h-screen flex justify-center items-center">Carregando...</p>
+        );
+    else if (error){
+        console.log(error);
+        return(
+            <p className="w-screen h-screen flex justify-center items-center">Houve um erro</p>
+        );}
+    else {
     return(
+        <>
         <form onSubmit={handleSubmit(onSubmit)}>
             {fields.map((field, index) => {
                 return(
@@ -53,64 +171,64 @@ export default function PortfolioConfigForm (){
                         type="text"
                         id={`titulo${index.toString()}`}
                         placeholder="Título"
-                        defaultValue={field.title}
+                        defaultValue={field["titulo"]}
                         className={configStyles.inputStyle}
-                        {...register(`projetosFA.${index}.title`)}
+                        {...register(`projetosFA.${index}.titulo`)}
                         required
                     />
                     </div>
                     <div className="flex flex-col my-2">
-                        <label htmlFor={`description${index.toString()}`}>Descrição</label>
+                        <label htmlFor={`descricao${index.toString()}`}>Descrição</label>
                         <textarea
-                        id={`description${index.toString()}`}
+                        id={`descricao${index.toString()}`}
                         placeholder="O que é esse projeto?"
-                        defaultValue={field.description}
+                        defaultValue={field["descricao"]}
                         className={configStyles.inputStyle}
-                        {...register(`projetosFA.${index}.description`)}
+                        {...register(`projetosFA.${index}.descricao`)}
                         required
                     />
                     </div>
                     <div className="flex flex-col my-2">
-                        <label htmlFor={`sourceUrl${index.toString()}`}>Link do repositório ou página</label>
+                        <label htmlFor={`linkRepositorio${index.toString()}`}>Link do repositório ou página</label>
                         <input 
                         type="text"
-                        id={`sourceUrl${index.toString()}`}
+                        id={`linkRepositorio${index.toString()}`}
                         placeholder="URL completa do repositório"
-                        defaultValue={field.sourceUrl}
+                        defaultValue={field["linkRepositorio"]}
                         className={configStyles.inputStyle}
-                        {...register(`projetosFA.${index}.sourceUrl`)}
+                        {...register(`projetosFA.${index}.linkRepositorio`)}
                         />
                     </div>
                     <div className="flex flex-col my-2">
-                        <label htmlFor={`photoUrl${index.toString()}`}>Link da imagem</label>
+                        <label htmlFor={`fotoUrl${index.toString()}`}>Link da imagem</label>
                         <input 
                         type="text"
-                        id={`photoUrl${index.toString()}`}
+                        id={`fotoUrl${index.toString()}`}
                         placeholder="URL completa da imagem"
-                        defaultValue={field.photoUrl}
+                        defaultValue={field["fotoUrl"]}
                         className={configStyles.inputStyle}
-                        {...register(`projetosFA.${index}.photoUrl`)}
+                        {...register(`projetosFA.${index}.fotoUrl`)}
                         />
                     </div>
                     <div className="flex flex-col my-2">
-                        <label htmlFor={`date${index.toString()}`}>Data de realização</label>
+                        <label htmlFor={`data${index.toString()}`}>Data de realização</label>
                         <input 
                         type="date"
-                        id={`date${index.toString()}`}
-                        defaultValue={field.date}
+                        id={`data${index.toString()}`}
+                        defaultValue={field["data"]?.toString().substring(0, 10)}
                         className={configStyles.inputStyle}
-                        {...register(`projetosFA.${index}.date`)}
+                        {...register(`projetosFA.${index}.data`)}
                         />
                     </div>
                     <div className="flex flex-col my-2">
-                        <label htmlFor={`authors${index.toString()}`}>Co-autores</label>
+                        <label htmlFor={`autores${index.toString()}`}>Co-autores</label>
                         <input 
                         type="text"
-                        id={`authors${index.toString()}`}
+                        id={`autores${index.toString()}`}
                         placeholder="Separe com vírgula. Caso não haja, deixe em branco."
-                        defaultValue={field.authors}
+                        defaultValue={field["autores"]?.toString()}
                         className={configStyles.inputStyle}
-                        {...register(`projetosFA.${index}.authors`)}
+                        {...register(`projetosFA.${index}.autores`)}
                         />
                     </div>
 
@@ -137,5 +255,9 @@ export default function PortfolioConfigForm (){
                 Salvar
             </button>
         </form>
+        {mensagem != null && mensagem != ""? <p>{mensagem}</p>
+        : <></>}
+        </>
     );
+    }
 }

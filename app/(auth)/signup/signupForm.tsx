@@ -10,11 +10,7 @@ export default function SignupForm(){
 
     async function signupSubmit(data:any) {
         console.log(data);
-        let resposta = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/signup`, data, {
-            headers: {
-                "Access-Control-Allow-Origin": "*"
-            }
-        });
+        let resposta = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/signup`, data);
     }
 
     return (
