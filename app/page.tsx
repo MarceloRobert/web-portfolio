@@ -37,15 +37,13 @@ export default function App(){
             </section>
 
             {/* Explorar */}
-            <section className="w-1/2 max-w-md text-center flex flex-col">
-                <Link href={'/signup'} className="text-white text-xl bg-green-600 hover:bg-green-700 w-full py-2 rounded-md hover:font-semibold transition-all duration-200">
+            <section className="w-3/4 max-w-md text-center items-center flex flex-col space-y-3">
+                <Link href={'/signup'} className="text-white text-xl bg-green-600 hover:bg-green-700 w-11/12 hover:w-full py-2 rounded-md hover:font-semibold transition-all duration-200">
                     Crie sua conta agora
                 </Link>
 
-                <span className="my-2">ou</span>
-
-                <Link href={'/portfolio'} className="text-white text-xl bg-green-600 hover:bg-green-700 w-full py-2 rounded-md hover:font-semibold transition-all duration-200">
-                    Explore portfolios reais
+                <Link href={'/portfolio'} className="text-white text-xl bg-green-600 hover:bg-green-700 w-11/12 hover:w-full py-2 rounded-md hover:font-semibold transition-all duration-200">
+                    Veja exemplos de portfolios
                 </Link>
             </section>
             </main>
@@ -67,7 +65,7 @@ export default function App(){
 
                 <div className="lg:text-left text-center">
                     <p>XDES03 - Programação Web</p>
-                    <p>Docente Phyllipe</p>
+                    <p>Professor Phyllipe</p>
                 </div>
             </footer>
         </>
