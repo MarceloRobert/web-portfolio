@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Web Portfolio
 
-## Getting Started
+O trabalho apresentado neste repositório é o front-end de um sistema de gerenciamento de portfolios. Os usuários do sistema podem criar um perfil e inserir informações de seus próprios projetos para terem uma página própria de forma simples e prática. Foi realizado o CRUD para o perfil de usuário e para os projetos dentro de um portfolio, o sistema contém um front-end Next.JS e backend Java + Spring, estes foram integrados para as funcionalidades principais, mas o sistema não está completamente integrado e funcional devido ao prazo da disciplina para qual foi desenvolvido.
 
-First, run the development server:
+Este é um projeto da disciplina XDES03 - Programação Web, realizado em 2023.2 sob o docente Phyllipe Lima - [https://github.com/phillima](https://github.com/phillima) - por mim e Lucas Batista Pereira - [https://github.com/Perebati](https://github.com/Perebati).
+
+O projeto foi criado em duas partes, o presente repositório contém o front-end do sistema, o qual foi desenvolvido utilizando [Next.js](https://nextjs.org/) bootstrapped com [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) e auxiliado por [Tailwind CSS](https://github.com/tailwindlabs/tailwindcss) para a estilização.
+
+A execução do código do front-end requer a execução do back-end, que pode ser encontrado no repositório [TrabalhoCOM222](https://github.com/Perebati/TrabalhoCOM222).
+
+## Execução
+
+É necessário clonar o back-end através do link apresentado acima, ter os requisitos necessários para sua execução e iniciá-lo.
+
+Após isso, o presente repositório pode ser clonado e deve ser adicionado à ele o arquivo .env.local, contendo a url de execução do servidor como o exemplo: `NEXT_PUBLIC_BACKEND_URL: "http://localhost:8080/api"`, existe apenas essa variável de ambiente.
+
+O sistema então poderá ser executado através dos comandos:
 
 ```bash
 npm run dev
-# or
+# ou
 yarn dev
-# or
+# ou
 pnpm dev
-# or
+# ou
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Será possível acessá-lo através da url [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Páginas
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Aqui estão as visualizações das páginas principais do sistema:
 
-## Learn More
+Página inicial
+![página inicial](./screenshots/Tela%20inicial.jpeg)
 
-To learn more about Next.js, take a look at the following resources:
+Página de um portfolio (versão web)
+![página portfolio web](./screenshots/Página%20portfolio.jpeg)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Página de um portfolio (versão mobile)
+![página portfolio mobile](./screenshots/Página%20portfolio%20mobile.jpeg)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Criação de conta
+![Criação de conta](./screenshots/Criação%20de%20conta.jpeg)
 
-## Deploy on Vercel
+Edição do perfil
+![Edição do perfil](./screenshots/Configuração%20de%20perfil.jpeg)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Edição do portfolio
+![Edição do portfolio](./screenshots/Configuração%20de%20projetos.jpeg)
