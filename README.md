@@ -14,6 +14,8 @@ A execução do código do front-end requer a execução do back-end, que pode s
 
 Após isso, o presente repositório pode ser clonado e deve ser adicionado à ele o arquivo .env.local, contendo a url de execução do servidor como o exemplo: `NEXT_PUBLIC_BACKEND_URL: "http://localhost:8080/api"`, existe apenas essa variável de ambiente.
 
+Copie o arquivo ".env.example" e remova o sufixo ".example" para utilizar as variáveis dentro do código.
+
 O sistema então poderá ser executado através dos comandos:
 
 ```bash
@@ -27,6 +29,13 @@ bun dev
 ```
 
 Será possível acessá-lo através da url [http://localhost:3000](http://localhost:3000).
+
+### Banco de dados
+
+`npx prisma studio` para visualização dos dados.
+`npx prisma migrate dev` para criar migrações.
+`npx prisma migrate reset` para resetar o banco de dados.
+
 
 ## Páginas
 
